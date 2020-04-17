@@ -122,6 +122,7 @@ export default class HelloWorld extends Vue {
 
   scalePattern = ['W', 'W', 'H', 'W', 'W', 'W', 'H'];
   // scalePattern = ['W', 'H', 'W', 'W', 'W', 'H', 'W'];
+  // scalePattern = ['W', 'H', '+', 'H', 'H', '+', 'H'];
   scaleRoot = 'E';
 
   get scale(): any[] {
@@ -163,6 +164,11 @@ export default class HelloWorld extends Vue {
       currentStep++;
 
       if (scalePatternItem === 'W') {
+        currentStep++;
+      }
+
+      if (scalePatternItem === '+') {
+        currentStep++;
         currentStep++;
       }
     }
