@@ -3,7 +3,11 @@
     <div id="options">
       <div>
         Root: <select @input="onRootSelect"  v-model="scaleRoot"><option v-for="noteTag in noteTags" :key="noteTag">{{ noteTag }}</option></select>
-        Pattern: {{ scalePattern }}
+        Pattern: <input v-model="scalePatternComputed" />
+        Pattern name: <select v-model="scalePatternComputed"><option v-for="(p, i) in scalePatternPresets" :value="p.scale" :key="i">{{ p.title }}</option></select>
+        <div>
+          <button @click="antiShiftScale">&lt;</button>{{ scalePattern }}<button @click="shiftScale">&gt;</button>
+        </div>
         <!-- Total frets: <input type="number" v-model="totalFrets" /> -->
       </div>
       <div>
@@ -125,14 +129,35 @@ export default class HelloWorld extends Vue {
   base: string = 'E';
 
   scaleRoot = 'C';
+
+  scalePatternPresets: any = [
+    { title: 'Major', scale: ['W', 'W', 'H', 'W', 'W', 'W', 'H'].join(','), },
+    { title: 'Minor Hungarian', scale: ['W', 'H', '+', 'H', 'H', '+', 'H'].join(','), },
+  ];
   scalePattern = ['W', 'W', 'H', 'W', 'W', 'W', 'H'];
-  // scalePattern = ['W', 'H', 'W', 'W', 'W', 'H', 'W'];
-  // scalePattern = ['W', 'H', '+', 'H', 'H', '+', 'H'];
+
+  get scalePatternComputed() {
+    return this.scalePattern.join(',');
+  }
+
+  set scalePatternComputed(value: string) {
+    this.scalePattern = value.split(',');
+  }
 
   get scale(): any[] {
     return this.scaleFromPattern(this.scalePattern, this.scaleRoot);
   }
   totalFrets: number = 22;
+
+  antiShiftScale() {
+    const v = this.scalePattern.shift();
+    this.scalePattern.push(v as any);
+  }
+
+  shiftScale() {
+    const v = this.scalePattern.pop();
+    this.scalePattern.unshift(v as any);
+  }
 
   onRootSelect(e: string) {
     this.scaleRoot = (e as any).target.value;
