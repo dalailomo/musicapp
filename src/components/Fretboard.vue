@@ -1,11 +1,15 @@
 <template>
   <div>
-    <p>
-      Root: <select @input="onRootSelect"  v-model="scaleRoot"><option v-for="noteTag in noteTags" :key="noteTag">{{ noteTag }}</option></select>
-    </p>
-    <p>
-      Pattern: {{ scalePattern }}</p>
-    <h3>Standard {{ base }}</h3>
+    <div id="options">
+      <div>
+        Root: <select @input="onRootSelect"  v-model="scaleRoot"><option v-for="noteTag in noteTags" :key="noteTag">{{ noteTag }}</option></select>
+        Pattern: {{ scalePattern }}
+        <!-- Total frets: <input type="number" v-model="totalFrets" /> -->
+      </div>
+      <div>
+        <h3>Tuning: <select @input="onBaseSelect"  v-model="base"><option v-for="noteTag in noteTags" :key="noteTag">{{ noteTag }}</option></select></h3>
+      </div>
+    </div>
     <div class="fretboard">
       <String :notes="notes(noteTags.indexOf(base) + 24)" stringPrefix="1st" :scale="scale" />
       <String :notes="notes(noteTags.indexOf(base) + 19)" stringPrefix="2nd" :scale="scale" />
@@ -120,10 +124,10 @@ import String from './String.vue';
 export default class HelloWorld extends Vue {
   base: string = 'E';
 
+  scaleRoot = 'C';
   scalePattern = ['W', 'W', 'H', 'W', 'W', 'W', 'H'];
   // scalePattern = ['W', 'H', 'W', 'W', 'W', 'H', 'W'];
   // scalePattern = ['W', 'H', '+', 'H', 'H', '+', 'H'];
-  scaleRoot = 'E';
 
   get scale(): any[] {
     return this.scaleFromPattern(this.scalePattern, this.scaleRoot);
@@ -132,6 +136,10 @@ export default class HelloWorld extends Vue {
 
   onRootSelect(e: string) {
     this.scaleRoot = (e as any).target.value;
+  }
+
+  onBaseSelect(e: string) {
+    this.base = (e as any).target.value;
   }
 
   noteTags: string[] = [
