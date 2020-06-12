@@ -4,5 +4,5 @@ const isDevelopmentEnv = env === 'development';
 
 module.exports = {
     outputDir: isDevelopmentEnv ? path.resolve(__dirname, "dist/") : path.resolve(__dirname, "docs/"),
-    publicPath: isDevelopmentEnv ? path.resolve(__dirname, "./") : "./musicapp",
+    publicPath: isDevelopmentEnv ? path.resolve(__dirname, "./") : "./",
 }
